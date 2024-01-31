@@ -4,7 +4,7 @@
 
 package adevprolatam.caida_libre_crud;
 
-import frontend.Index;
+import frontend.CaidaLibreFrame;
 
 /**
  *
@@ -13,7 +13,7 @@ import frontend.Index;
 public class Caida_Libre_CRUD {
 
     public static void main(String[] args) {
-       Index index = new Index();
+       CaidaLibreFrame index = new CaidaLibreFrame();
        index.setLocationRelativeTo(null);
        index.setVisible(true);
     }
