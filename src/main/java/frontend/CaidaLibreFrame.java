@@ -26,14 +26,14 @@ public class CaidaLibreFrame extends javax.swing.JFrame {
     //CONFIG COLOR //[0,144,231] //[25,28,36] //[50,54,62]
     private Color defaultColorTextBoton = new Color(233, 236, 239);
     private Color defaultColorBoton = new Color(25, 28, 36);
-    private Color colorSeleccion = new Color(50, 54, 62);
+    private Color colorSeleccion = new Color(47,67,79);
     private Color colorTextSeleccion = new Color(255, 255, 255);
     
     public CaidaLibreFrame() {
-        //db = new DB();            
-        //if (db.establecerConexion()) {
-             //database = db.getDatabase();
-             //crud  = new CRUD(database);
+        db = new DB();            
+        if (db.establecerConexion()) {
+             database = db.getDatabase();
+             crud  = new CRUD(database);
              IndexJPanel menu = new  IndexJPanel(crud);
              initComponents();
              resetBackgroundColors();
@@ -48,9 +48,9 @@ public class CaidaLibreFrame extends javax.swing.JFrame {
              content.revalidate();
              content.repaint();
             System.out.println("Conexión a la base de datos establecida");
-        //} else {
+        } else {
             System.err.println("Error al establecer la conexión a la base de datos");
-        //}
+        }
     }
 
     /**
@@ -73,8 +73,9 @@ public class CaidaLibreFrame extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jButtonCalcular = new javax.swing.JButton();
         jButtonListar = new javax.swing.JButton();
-        jButtonVaciar = new javax.swing.JButton();
+        jButtonGrafica = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
+        jButtonVaciar = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         content = new javax.swing.JPanel();
 
@@ -128,6 +129,11 @@ public class CaidaLibreFrame extends javax.swing.JFrame {
 
         navLink.setBackground(new java.awt.Color(15, 16, 21));
         navLink.setPreferredSize(new java.awt.Dimension(224, 46));
+        navLink.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                navLinkMouseClicked(evt);
+            }
+        });
 
         color.setBackground(new java.awt.Color(0, 144, 231));
         color.setPreferredSize(new java.awt.Dimension(3, 46));
@@ -147,6 +153,11 @@ public class CaidaLibreFrame extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Dashboard");
+        jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel1MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout navLinkLayout = new javax.swing.GroupLayout(navLink);
         navLink.setLayout(navLinkLayout);
@@ -169,7 +180,7 @@ public class CaidaLibreFrame extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(108, 114, 147));
-        jLabel2.setText("Navegacion");
+        jLabel2.setText("Navegación");
 
         jButtonCalcular.setBackground(new java.awt.Color(25, 28, 36));
         jButtonCalcular.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -202,19 +213,19 @@ public class CaidaLibreFrame extends javax.swing.JFrame {
             }
         });
 
-        jButtonVaciar.setBackground(new java.awt.Color(25, 28, 36));
-        jButtonVaciar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jButtonVaciar.setForeground(new java.awt.Color(255, 255, 255));
-        jButtonVaciar.setText("Vaciar");
-        jButtonVaciar.setBorder(null);
-        jButtonVaciar.setBorderPainted(false);
-        jButtonVaciar.setFocusable(false);
-        jButtonVaciar.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jButtonVaciar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButtonVaciar.setPreferredSize(new java.awt.Dimension(33, 20));
-        jButtonVaciar.addActionListener(new java.awt.event.ActionListener() {
+        jButtonGrafica.setBackground(new java.awt.Color(25, 28, 36));
+        jButtonGrafica.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jButtonGrafica.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonGrafica.setText("Grafica");
+        jButtonGrafica.setBorder(null);
+        jButtonGrafica.setBorderPainted(false);
+        jButtonGrafica.setFocusable(false);
+        jButtonGrafica.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jButtonGrafica.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButtonGrafica.setPreferredSize(new java.awt.Dimension(33, 20));
+        jButtonGrafica.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonVaciarActionPerformed(evt);
+                jButtonGraficaActionPerformed(evt);
             }
         });
 
@@ -232,6 +243,22 @@ public class CaidaLibreFrame extends javax.swing.JFrame {
             .addGap(0, 5, Short.MAX_VALUE)
         );
 
+        jButtonVaciar.setBackground(new java.awt.Color(25, 28, 36));
+        jButtonVaciar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jButtonVaciar.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonVaciar.setText("Vaciar");
+        jButtonVaciar.setBorder(null);
+        jButtonVaciar.setBorderPainted(false);
+        jButtonVaciar.setFocusable(false);
+        jButtonVaciar.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jButtonVaciar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButtonVaciar.setPreferredSize(new java.awt.Dimension(33, 20));
+        jButtonVaciar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonVaciarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout navbarLayout = new javax.swing.GroupLayout(navbar);
         navbar.setLayout(navbarLayout);
         navbarLayout.setHorizontalGroup(
@@ -247,6 +274,7 @@ public class CaidaLibreFrame extends javax.swing.JFrame {
                             .addComponent(jLabel2)
                             .addComponent(jButtonCalcular, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButtonListar, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButtonGrafica, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButtonVaciar, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
@@ -264,8 +292,10 @@ public class CaidaLibreFrame extends javax.swing.JFrame {
                         .addComponent(jButtonCalcular, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addComponent(jButtonListar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(1, 1, 1)
+                .addComponent(jButtonGrafica, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(1, 1, 1)
                 .addComponent(jButtonVaciar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 246, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 195, Short.MAX_VALUE)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -332,13 +362,13 @@ public class CaidaLibreFrame extends javax.swing.JFrame {
         botonSeleccionado = jButtonCalcular;
         botonSeleccionado.setBackground(colorSeleccion);
         botonSeleccionado.setForeground(colorTextSeleccion);
-        //TrianguloJPanel triangle  = new TrianguloJPanel(figuraCRUD);
-        //triangle.setSize(content.getWidth(),content.getHeight());
-        //content.setLocation(0, 0);
-        //content.removeAll();
-        //content.add(triangle);
-        //content.revalidate();
-        //content.repaint();
+        CalcularJPanel page  = new CalcularJPanel(crud);
+        page.setSize(content.getWidth(),content.getHeight());
+        content.setLocation(0, 0);
+        content.removeAll();
+        content.add(page);
+        content.revalidate();
+        content.repaint();
     }//GEN-LAST:event_jButtonCalcularActionPerformed
 
     private void jButtonListarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonListarActionPerformed
@@ -346,22 +376,66 @@ public class CaidaLibreFrame extends javax.swing.JFrame {
         botonSeleccionado = jButtonListar;
         botonSeleccionado.setBackground(colorSeleccion);
         botonSeleccionado.setForeground(colorTextSeleccion);
+        ListaJPanel lista  = new ListaJPanel(crud);
+        lista.setSize(content.getWidth(),content.getHeight());
+        content.setLocation(0, 0);
+        content.removeAll();
+        content.add(lista);
+        content.revalidate();
+        content.repaint();
     }//GEN-LAST:event_jButtonListarActionPerformed
+
+    private void jButtonGraficaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGraficaActionPerformed
+        resetBackgroundColors();
+        botonSeleccionado = jButtonGrafica;
+        botonSeleccionado.setBackground(colorSeleccion);
+        botonSeleccionado.setForeground(colorTextSeleccion);
+        GraficaJPanel view  = new GraficaJPanel(crud);
+        view.setSize(content.getWidth(),content.getHeight());
+        content.setLocation(0, 0);
+        content.removeAll();
+        content.add(view);
+        content.revalidate();
+        content.repaint();
+    }//GEN-LAST:event_jButtonGraficaActionPerformed
 
     private void jButtonVaciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonVaciarActionPerformed
         resetBackgroundColors();
         botonSeleccionado = jButtonVaciar;
         botonSeleccionado.setBackground(colorSeleccion);
         botonSeleccionado.setForeground(colorTextSeleccion);
+        VaciarJPanel vaciar  = new VaciarJPanel(crud);
+        vaciar.setSize(content.getWidth(),content.getHeight());
+        content.setLocation(0, 0);
+        content.removeAll();
+        content.add(vaciar);
+        content.revalidate();
+        content.repaint();
     }//GEN-LAST:event_jButtonVaciarActionPerformed
+
+    private void navLinkMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_navLinkMouseClicked
+
+    }//GEN-LAST:event_navLinkMouseClicked
+
+    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
+        IndexJPanel menu = new  IndexJPanel(crud);
+        menu.setSize(content.getWidth(),content.getHeight()); 
+        menu.setLocation(0, 0);
+        content.removeAll();
+        content.add(menu);
+        content.revalidate();
+        content.repaint();
+    }//GEN-LAST:event_jLabel1MouseClicked
     private void resetBackgroundColors() {
         //BG BOTON
         jButtonCalcular.setBackground(defaultColorBoton);
         jButtonListar.setBackground(defaultColorBoton);
+        jButtonGrafica.setBackground(defaultColorBoton);
         jButtonVaciar.setBackground(defaultColorBoton);
         // BG TEXT
         jButtonCalcular.setForeground(defaultColorTextBoton);
         jButtonListar.setForeground(defaultColorTextBoton);
+        jButtonGrafica.setForeground(defaultColorTextBoton);
         jButtonVaciar.setForeground(defaultColorTextBoton);
     }
 
@@ -406,6 +480,7 @@ public class CaidaLibreFrame extends javax.swing.JFrame {
     private javax.swing.JPanel color;
     private javax.swing.JPanel content;
     private javax.swing.JButton jButtonCalcular;
+    private javax.swing.JButton jButtonGrafica;
     private javax.swing.JButton jButtonListar;
     private javax.swing.JButton jButtonVaciar;
     private javax.swing.JLabel jLabel1;

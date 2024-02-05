@@ -15,9 +15,8 @@ public class Caida_Libre {
     private int indice;
     
     // CONSTRUCTOR
-    public Caida_Libre(double altura, double velocidad, double tiempo) {
+    public Caida_Libre(double altura, double tiempo) {
         this.altura = altura;
-        this.velocidadFinal = velocidad;
         this.tiempo = tiempo;
     }
     
@@ -57,20 +56,10 @@ public class Caida_Libre {
     
     
     // PROCESS
-    public double  Calcular(String option){
+    public double  Calcular(){
         double gravedad = 9.8;
-        switch(option){
-            case "vf" -> {
-                return Math.sqrt(2 * gravedad * this.altura);
-            }
-            case "d" -> {
-                return 0.5 * gravedad * Math.pow(this.tiempo, 2);
-            }
-            case "t" ->{
-                return velocidadFinal / gravedad;
-            } 
-        };
-        return 0;
+        //return Math.sqrt(2*this.altura*gravedad);
+        return gravedad*this.tiempo;
     }
        
 }

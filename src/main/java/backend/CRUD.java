@@ -21,8 +21,13 @@ public class CRUD {
     private final MongoCollection<Document> coleccionDatos ;
     private int indiceDatos;
     private int obtenerUltimoIndice(MongoCollection<Document> coleccion) {
-        long count = coleccion.countDocuments();
-        return (int) count;
+    Document ultimoDocumento = coleccion.find().sort(new Document("indice", -1)).limit(1).first();
+    
+    if (ultimoDocumento != null) {
+        return ultimoDocumento.getInteger("indice", 0);
+    } else {
+        return 0;
+    }
     }
             
     // CONSTRUCTOR
@@ -36,41 +41,19 @@ public class CRUD {
     }
     
     // SAVE
-    public void GuardarDB(String opcion, double altura, double velocidad, double tiempo) {
+    public void GuardarDB(double altura, double velocidad, double tiempo) {
         try {
-            Document documentoCaidaLibre;
-            switch (opcion) {
-                case "vf" -> {             
-                    documentoCaidaLibre = new Document("tipo", "VelocidadFinal")
-                            .append("indice", indiceDatos++)
-                            .append("altura", altura)
-                            .append("velocidad", velocidad)
-                            .append("tiempo", 0.0); // Tiempo no aplicable en este caso
-                }
-                case "d" -> {
-                    documentoCaidaLibre = new Document("tipo", "Distancia")
-                            .append("indice", indiceDatos++)
-                            .append("altura", 0.0) // Altura no aplicable en este caso
-                            .append("velocidad", 0.0) // Velocidad no aplicable en este caso
-                            .append("tiempo", tiempo);
-                }
-                case "t" -> {
-                    documentoCaidaLibre = new Document("tipo", "Tiempo")
-                            .append("indice", indiceDatos++)
-                            .append("altura", altura)
-                            .append("velocidad", velocidad)
-                            .append("tiempo", tiempo);
-                }
-                default -> {
-                    System.err.println("Opción no válida");
-                    return; 
-                }
-            }
-            coleccionDatos.insertOne(documentoCaidaLibre);
-            System.out.println("Datos insertados en la base de datos");
-        } catch (MongoException e) {
-            System.err.println("Error al almacenar en la base de datos: " + e.getMessage());
-        }
+        indiceDatos = obtenerUltimoIndice(coleccionDatos) + 1; // Incrementar el índice cada vez que se guarda
+        Document documentoCaidaLibre = new Document("tipo", "Caida Libre")
+                .append("indice", indiceDatos)
+                .append("altura", altura)
+                .append("velocidad", velocidad)
+                .append("tiempo", tiempo);
+        coleccionDatos.insertOne(documentoCaidaLibre);
+        System.out.println("Datos insertados en la base de datos");
+    } catch (MongoException e) {
+        System.err.println("Error al almacenar en la base de datos: " + e.getMessage());
+    }
     }
 
     // GET
@@ -88,14 +71,13 @@ public class CRUD {
                 double tiempo  = documentoCaidaLibre.getDouble("tiempo");
                 int indice = documentoCaidaLibre.getInteger("indice");
                 
-                Caida_Libre caidaLibre = new Caida_Libre(altura,velocidad,tiempo);
+                Caida_Libre caidaLibre = new Caida_Libre(altura, tiempo);
                 caidaLibre.setAltura(altura);
                 caidaLibre.setTiempo(tiempo);
                 caidaLibre.setVelocidadFinal(velocidad);
                 caidaLibre.setIndice(indice);
                 listaCaidaLibre.add(caidaLibre);
             }
-
             iterator.close();
         } else {
             System.err.println("La colección de datos es nula");
@@ -110,9 +92,9 @@ public class CRUD {
     public void VaciarDB(){
      try {
          coleccionDatos.deleteMany(new Document());
-         System.out.println("Colección de Cuadrados eliminada en la base de datos");
+         System.out.println("Colección de datos eliminada en la base de datos");
      } catch (MongoException e) {
-         System.err.println("Error al eliminar la colección de círculos: " + e.getMessage());
+         System.err.println("Error al eliminar la colección de datos: " + e.getMessage());
      }
     }
 }
